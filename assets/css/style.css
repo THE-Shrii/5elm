@@ -31,9 +31,9 @@
 :root {
   --gradient: linear-gradient( to right, rgb(255,64,62) 0%, rgb(255,129,27) 100%);
   --gradient-sec: linear-gradient( to right, rgb(57,26,166) 0%, rgb(6,163,245) 100%);
-  --primary: #96583F;
+  --primary: #555C4A;
   --secondary: #000000;
-  --primary-hover: #fec2c2;
+  --primary-hover: #C5BEB3;
   --primary-dark: #555C4A ;
   --rgba-primary-1: rgba(254, 143, 144, 0.1);
   --rgba-primary-2: rgba(254, 143, 144, 0.2);
@@ -48,19 +48,19 @@
   --grey: #f7f7f7;
   --border-radius-base: 6px;
   --border-color: #000000;
-  --font-family-title: Lufga, sans-serif;
-  --title: #434341;
+  --font-family-title: "Halant", serif;
+  --title: #96583F;
   --headings-font-weight:600;
   --headings-font-weight2:400;
   --headings-font-weight3:300;
   --white:var(--title);
-  --light:#f1ebe3df ; }
-
-/*!
-   * Bootstrap  v5.3.3 (https://getbootstrap.com/)
-   * Copyright 2011-2024 The Bootstrap Authors
-   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
-   */
+  --light:#C5BEB3 ; }
+h4,h5,h6{
+    font-family: "Poppins", sans-serif !important;
+}
+p,span{
+   font-family: "Open Sans", sans-serif  !important;
+}
 :root,
 [data-bs-theme="light"] {
   --bs-gray-100: #f8f9fa;
@@ -38455,7 +38455,7 @@ footer {
     line-height: 1.2;
     font-size: 20px; }
   footer .footer-top {
-    padding: 80px 0px 50px;
+    /* padding: 80px 0px 50px; */
     position: relative;
     border-top: 1px solid #000; }
     footer .footer-top .widget {
