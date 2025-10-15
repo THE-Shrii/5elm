@@ -31,7 +31,8 @@
 :root {
   --gradient: linear-gradient( to right, rgb(255,64,62) 0%, rgb(255,129,27) 100%);
   --gradient-sec: linear-gradient( to right, rgb(57,26,166) 0%, rgb(6,163,245) 100%);
-  --primary: #555C4A;
+  /* --primary: #555C4A; */
+  --primary:#23261f;
   --secondary: #000000;
   --primary-hover: #C5BEB3;
   --primary-dark: #555C4A ;
@@ -54,7 +55,7 @@
   --headings-font-weight2:400;
   --headings-font-weight3:300;
   --white:var(--title);
-  --light:#555C4A ; }
+  --light:#23261f ; }
   h1,h2,h3{
     font-weight: 500 !important;
   }
@@ -38979,7 +38980,7 @@ footer {
 		
 		.footer {
 			background-color: var(--primary); 
-				padding: 200px 10px 10px 10px;
+				padding: 20px 10px 10px 10px;
 				text-align: center;
 				color: #333;
 		}
@@ -39011,11 +39012,11 @@ footer {
 		@media (max-width: 768px) {
 			.divider {
 				width: 90%;
-				margin: 30px auto;
+				margin: 0px auto;
 			}
 			
 			.footer {
-				padding: 30px 0;
+				padding: 0px 0;
 			}
 			
 			.footer-tagline {
@@ -39033,4 +39034,9 @@ footer {
     }
     .l3{
           border: none!important;
+    }
+
+    .csimg img{
+          max-height: 450px;
+    height: 100%;
     }
