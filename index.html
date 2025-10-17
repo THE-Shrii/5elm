@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>5 ELM - Coming Soon</title>
+ <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Halant:wght@300;400;500;600;700&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "Georgia", serif;
+      background: url("assets/img/bgd.png") no-repeat center top / cover;
+      color: #fff;
+      height: 100vh;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.25);
+      z-index: 1;
+    }
+
+    h1, h2, h3{
+
+        font-family: "Halant", serif;
+    }
+    h4,h5,h6{
+        font-family: "Poppins", sans-serif;
+    }
+    p, span{
+        font-family: "Open Sans", sans-serif;
+    }
+    input[type="text"], input[type="email"], input[type="tel"] {
+        font-family: "Open Sans", sans-serif;
+    }
+    label {
+        font-family: "Open Sans", sans-serif;
+    }
+    .content {
+      position: relative;
+      z-index: 2;
+      max-width: 600px;
+      width: 90%;
+      padding: 10px;
+      backdrop-filter: blur(3px);
+    }
+
+    .logo img {
+      width: 100px;
+      height: auto;
+      margin-bottom: 0;
+    }
+
+    h1 {
+      font-size: 3rem;
+      font-weight: 500;
+      color: #fff;
+    }
+
+    p {
+      font-size: 15px;
+      line-height: 1.8;
+      color: #f2f2f2;
+      margin-bottom: 25px;
+    }
+
+    p strong {
+      font-weight: 600;
+    }
+
+    /* Form */
+    form {
+      margin-top: 20px;
+    }
+
+    .form-group {
+      text-align: left;
+      margin-bottom: 10px;
+    }
+
+    label {
+      display: block;
+      font-weight: bold;
+      font-size: 13px;
+      color: #fff;
+      margin-bottom: 5px;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"] {
+      width: 100%;
+      padding: 10px 0;
+      border: none;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.6);
+      background: transparent;
+      color: #fff;
+      font-size: 14px;
+      outline: none;
+    }
+
+    input::placeholder {
+      color: #ccc;
+    }
+
+    .checkbox {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 13px;
+      color: #ddd;
+      margin-top: 10px;
+    }
+
+    .checkbox input {
+      margin-top: 4px;
+       accent-color: #555C4A;
+    }
+
+    button {
+      background: #555C4A;
+      border: none;
+      color: #fff;
+      padding: 12px 30px;
+      border-radius: 30px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 25px;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background: #707b53;
+    }
+
+    @media (min-width: 1200px) {
+      body {
+        background-position: top center; 
+        background-size: cover; 
+        background-repeat: no-repeat;
+        background-color: #000;
+      }
+    }
+
+    @media (max-width: 1024px) {
+      body {
+        background: url("assets/img/bg.png") no-repeat 60% center / cover;
+      }
+        .logo img {
+        width: 80px;
+        height: auto;
+        margin-top: 30px;
+        }
+      
+    }
+
+    @media (max-width: 768px) {
+      body {
+        background: url("assets/img/bgm.jpeg") no-repeat 70% center / cover;
+        height: auto;
+        padding: 40px 0;
+      }
+
+      h1 {
+        font-size: 2.4rem;
+      }
+
+      p {
+        font-size: 14px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      body {
+        background: url("assets/img/bgm.jpeg") no-repeat 80% center / cover;
+      }
+
+      h1 {
+        font-size: 2rem;
+      }
+
+      button {
+        width: 100%;
+      }
+      .content {
+            position: relative;
+            z-index: 2;
+            max-width: 600px;
+            width: 90%;
+            backdrop-filter: blur(3px);
+            margin-top: -60px;
+        }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="content">
+    <div class="logo">
+      <img src="assets/img/l2.png" alt="5 ELM Logo" />
+    </div>
+
+    <h1>Coming soon...</h1>
+    <p>
+      Born from the five elements, our products are an ode to nature’s purity and timeless Ayurvedic rituals.
+      We’re creating skincare that feels personal, conscious, and deeply connected.
+      We’d love for you to begin this journey with us.
+    </p>
+
+    <p>
+      Be the first to experience 5 ELM.<br />
+      Sign up to get exclusive early access and <strong>enjoy 10% off</strong> your first order.
+    </p>
+
+    <form>
+      <div class="form-group">
+        <label for="name">NAME</label>
+        <input type="text" id="name" placeholder="ENTER FULL NAME *" required />
+      </div>
+
+      <div class="form-group">
+        <label for="email">EMAIL ADDRESS</label>
+        <input type="email" id="email" placeholder="ENTER YOUR EMAIL *" required />
+      </div>
+
+      <div class="form-group">
+        <label for="contact">CONTACT NO</label>
+        <input type="tel" id="contact" placeholder="ENTER CONTACT NUMBER" />
+      </div>
+
+      <div class="checkbox">
+        <input type="checkbox" id="agree" />
+        <label for="agree">I agree to receive marketing newsletters, offers and other promotional communications.</label>
+      </div>
+
+      <button type="submit">Sign Up</button>
+    </form>
+  </div>
+</body>
+</html>
