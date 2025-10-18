@@ -33,21 +33,25 @@
   <div class="form-group">
     <label for="firstName">FIRST NAME</label>
     <input type="text" id="firstName" placeholder="ENTER FIRST NAME *" required />
+    <div class="error-message" id="firstName-error"></div>
   </div>
 
   <div class="form-group">
     <label for="lastName">LAST NAME</label>
     <input type="text" id="lastName" placeholder="ENTER LAST NAME *" required />
+    <div class="error-message" id="lastName-error"></div>
   </div>
 
   <div class="form-group">
     <label for="email">EMAIL ADDRESS</label>
     <input type="email" id="email" placeholder="ENTER YOUR EMAIL *" required />
+    <div class="error-message" id="email-error"></div>
   </div>
 
   <div class="form-group">
     <label for="phone">CONTACT NO</label>
     <input type="tel" id="phone" placeholder="ENTER CONTACT NUMBER" />
+    <div class="error-message" id="phone-error"></div>
   </div>
 
   <div class="checkbox">
@@ -63,8 +67,68 @@
 
   </div>
   <script>
+// 🧠 Validation Functions
+function validateEmail(email) {
+  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailPattern.test(email);
+}
+
+function validatePhone(phone) {
+  if (!phone) return true; // Optional field
+  const phonePattern = /^[6-9]\d{9}$/;
+  return phonePattern.test(phone);
+}
+
+function validateName(name) {
+  const namePattern = /^[a-zA-Z\s\-]+$/;
+  return namePattern.test(name);
+}
+
+function showFieldError(fieldId, message) {
+  const field = document.getElementById(fieldId);
+  const errorDiv = document.getElementById(`${fieldId}-error`);
+  
+  field.style.borderColor = '#ff6b6b';
+  errorDiv.textContent = message;
+  errorDiv.style.display = 'block';
+}
+
+function clearFieldError(fieldId) {
+  const field = document.getElementById(fieldId);
+  const errorDiv = document.getElementById(`${fieldId}-error`);
+  
+  field.style.borderColor = '#ccc';
+  errorDiv.textContent = '';
+  errorDiv.style.display = 'none';
+}
+
+function clearAllErrors() {
+  ['firstName', 'lastName', 'email', 'phone'].forEach(clearFieldError);
+}
+
+function showModal(title, message, isError = false) {
+  const modal = document.getElementById('response-modal');
+  const modalTitle = document.getElementById('modal-title');
+  const modalMessage = document.getElementById('modal-message');
+  const modalIcon = document.getElementById('modal-icon');
+  
+  modalTitle.textContent = title;
+  modalMessage.textContent = message;
+  modalIcon.textContent = isError ? '❌' : '✅';
+  modalIcon.style.color = isError ? '#ff6b6b' : '#555C4A';
+  
+  modal.style.display = 'flex';
+}
+
+function closeModal() {
+  document.getElementById('response-modal').style.display = 'none';
+}
+
 document.getElementById("landing-form").addEventListener("submit", async function (e) {
   e.preventDefault();
+
+  // Clear previous errors
+  clearAllErrors();
 
   const firstName = document.getElementById("firstName").value.trim();
   const lastName = document.getElementById("lastName").value.trim();
@@ -72,18 +136,40 @@ document.getElementById("landing-form").addEventListener("submit", async functio
   const phone = document.getElementById("phone").value.trim();
   const consent = document.getElementById("consent").checked;
 
-  const messageEl = document.getElementById("form-message");
   const submitBtn = e.target.querySelector("button");
+  let hasErrors = false;
 
-  // Reset message each time
-  messageEl.textContent = "";
-  messageEl.style.color = "#fff";
-
-  if (!firstName || !lastName || !email) {
-    messageEl.textContent = "⚠️ Please fill in all required fields.";
-    messageEl.style.color = "#ffcc00";
-    return;
+  // 🎯 Frontend Validation
+  if (!firstName) {
+    showFieldError('firstName', 'First name is required.');
+    hasErrors = true;
+  } else if (!validateName(firstName)) {
+    showFieldError('firstName', 'First name can only contain letters, spaces, and hyphens.');
+    hasErrors = true;
   }
+
+  if (!lastName) {
+    showFieldError('lastName', 'Last name is required.');
+    hasErrors = true;
+  } else if (!validateName(lastName)) {
+    showFieldError('lastName', 'Last name can only contain letters, spaces, and hyphens.');
+    hasErrors = true;
+  }
+
+  if (!email) {
+    showFieldError('email', 'Email address is required.');
+    hasErrors = true;
+  } else if (!validateEmail(email)) {
+    showFieldError('email', 'Please enter a valid email address.');
+    hasErrors = true;
+  }
+
+  if (phone && !validatePhone(phone)) {
+    showFieldError('phone', 'Please enter a valid 10-digit phone number starting with 6-9.');
+    hasErrors = true;
+  }
+
+  if (hasErrors) return;
 
   const payload = { firstName, lastName, email, phone, consent };
 
@@ -100,105 +186,175 @@ document.getElementById("landing-form").addEventListener("submit", async functio
     const data = await response.json();
 
     if (response.ok && data.success) {
-      // Show popup instead of text message
-      const popup = document.getElementById("successPopup");
-      const popupMessage = document.getElementById("popup-message");
-      popupMessage.textContent = `🎉 Thank you, ${firstName}! You've been successfully registered. Check your email for your exclusive 15% OFF coupon.`;
-      popup.style.display = "flex";
-
+      // 🎉 Show success modal
+      showModal(
+        'Registration Successful!',
+        `Thank you, ${firstName}! You've successfully registered. Check your inbox for your exclusive 10% off coupon!`
+      );
+      
       // Reset form
       e.target.reset();
+      clearAllErrors();
     } else {
-      messageEl.textContent = "⚠️ " + (data.message || "Something went wrong. Please try again.");
-      messageEl.style.color = "#ff9999";
+      // 🚨 Show error modal
+      showModal(
+        'Registration Failed',
+        data.message || 'Something went wrong. Please try again.',
+        true
+      );
     }
   } catch (error) {
     console.error("Error submitting form:", error);
-    messageEl.textContent = "❌ Server error. Please try again later.";
-    messageEl.style.color = "#ff6666";
+    showModal(
+      'Server Error',
+      'Server error, please try again later.',
+      true
+    );
   } finally {
     submitBtn.disabled = false;
     submitBtn.textContent = "Sign Up";
-
-    // Auto-hide message after 5 seconds
-    setTimeout(() => {
-      messageEl.textContent = "";
-    }, 5000);
   }
 });
 
-// Setup popup close functionality (only once)
+// Setup modal close functionality
 document.addEventListener('DOMContentLoaded', function() {
-  const popup = document.getElementById("successPopup");
-  const closeBtn = document.getElementById("closePopup");
+  const modal = document.getElementById("response-modal");
+  const closeBtn = document.getElementById("close-response-modal");
   
-  // Close popup when clicking the OK button
-  closeBtn.addEventListener("click", () => {
-    popup.style.display = "none";
-  });
+  // Close modal when clicking the button
+  closeBtn.addEventListener("click", closeModal);
   
-  // Close popup when clicking outside the popup box
-  popup.addEventListener("click", (e) => {
-    if (e.target === popup) {
-      popup.style.display = "none";
+  // Close modal when clicking outside
+  modal.addEventListener("click", (e) => {
+    if (e.target === modal) {
+      closeModal();
     }
   });
   
-  // Close popup with Escape key
+  // Close modal with Escape key
   document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && popup.style.display === "flex") {
-      popup.style.display = "none";
+    if (e.key === "Escape" && modal.style.display === "flex") {
+      closeModal();
     }
   });
 });
 </script>
 
-<!-- ✅ Success Popup -->
-<div id="successPopup" class="popup-overlay" style="display:none;">
-  <div class="popup-box">
-    <h2>🎉 Registration Successful!</h2>
-    <p id="popup-message">Thank you for signing up! Check your email for your exclusive 15% OFF coupon.</p>
-    <button id="closePopup">OK</button>
+<!-- ✅ Response Modal (Success/Error) -->
+<div id="response-modal" class="modal-overlay" style="display:none;">
+  <div class="modal-box">
+    <div class="modal-icon" id="modal-icon">✅</div>
+    <h2 id="modal-title">Registration Successful!</h2>
+    <p id="modal-message">Thank you for signing up! Check your email for your exclusive coupon.</p>
+    <button id="close-response-modal" class="modal-button">Got It</button>
   </div>
 </div>
 
 <style>
-  .popup-overlay {
+  /* Error Message Styling */
+  .error-message {
+    display: none;
+    color: #ff6b6b;
+    font-size: 0.75rem;
+    margin-top: 4px;
+    font-weight: 500;
+  }
+
+  .form-group input.error {
+    border-color: #ff6b6b !important;
+    box-shadow: 0 0 0 2px rgba(255, 107, 107, 0.1);
+  }
+
+  /* Modal Styling */
+  .modal-overlay {
     position: fixed;
     inset: 0;
-    background: rgba(0,0,0,0.5);
+    background: rgba(0,0,0,0.6);
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 9999;
+    backdrop-filter: blur(4px);
   }
-  .popup-box {
-    background: #fff;
+
+  .modal-box {
+    background: linear-gradient(135deg, #fefefe 0%, #f8f6f3 100%);
     color: #333;
-    padding: 2rem;
-    border-radius: 16px;
+    padding: 2.5rem;
+    border-radius: 20px;
     text-align: center;
-    width: 320px;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    width: 90%;
+    max-width: 420px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+    border: 1px solid #e8e5e0;
     font-family: 'Poppins', sans-serif;
+    transform: scale(0.9);
+    animation: modalAppear 0.3s ease-out forwards;
   }
-  .popup-box h2 {
-    margin-bottom: 0.5rem;
-    color: #446644;
+
+  @keyframes modalAppear {
+    to {
+      transform: scale(1);
+    }
   }
-  .popup-box button {
-    margin-top: 1rem;
-    padding: 0.5rem 1.5rem;
+
+  .modal-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    display: block;
+  }
+
+  .modal-box h2 {
+    margin-bottom: 1rem;
+    color: #555C4A;
+    font-size: 1.5rem;
+    font-weight: 600;
+  }
+
+  .modal-box p {
+    margin-bottom: 1.5rem;
+    color: #666;
+    line-height: 1.5;
+    font-size: 0.95rem;
+  }
+
+  .modal-button {
+    padding: 0.75rem 2rem;
     border: none;
-    border-radius: 8px;
-    background-color: #446644;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #555C4A 0%, #6b7559 100%);
     color: #fff;
     font-weight: 600;
+    font-size: 0.95rem;
     cursor: pointer;
-    transition: all 0.2s;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(85, 92, 74, 0.3);
   }
-  .popup-box button:hover {
-    background-color: #557755;
+
+  .modal-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(85, 92, 74, 0.4);
+    background: linear-gradient(135deg, #6b7559 0%, #555C4A 100%);
+  }
+
+  .modal-button:active {
+    transform: translateY(0);
+  }
+
+  /* Form Input Enhanced Styling */
+  .form-group input {
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .form-group input:focus {
+    border-color: #555C4A;
+    box-shadow: 0 0 0 2px rgba(85, 92, 74, 0.1);
+    outline: none;
+  }
+
+  /* Remove old popup styles if they exist */
+  .popup-overlay {
+    display: none !important;
   }
 </style>
 

@@ -468,7 +468,13 @@ async function sendWelcomeEmail(visitor) {
  * @access Public
  */
 const registerVisitorSQL = asyncHandler(async (req, res, next) => {
-  const { firstName, lastName, email, phone, consent } = req.body;
+  let { firstName, lastName, email, phone, consent } = req.body;
+
+  // 🧱 Backend Validation & Sanitization
+  firstName = firstName?.trim();
+  lastName = lastName?.trim();
+  email = email?.trim().toLowerCase();
+  phone = phone?.trim();
 
   // 1️⃣ Validate required fields
   if (!firstName || !lastName || !email) {
@@ -476,6 +482,42 @@ const registerVisitorSQL = asyncHandler(async (req, res, next) => {
       success: false,
       message: 'First name, last name, and email are required.',
     });
+  }
+
+  // 2️⃣ Validate name fields (alphabets, spaces, hyphens only)
+  const namePattern = /^[a-zA-Z\s\-]+$/;
+  if (!namePattern.test(firstName)) {
+    return res.status(400).json({
+      success: false,
+      message: 'First name can only contain letters, spaces, and hyphens.',
+    });
+  }
+
+  if (!namePattern.test(lastName)) {
+    return res.status(400).json({
+      success: false,
+      message: 'Last name can only contain letters, spaces, and hyphens.',
+    });
+  }
+
+  // 3️⃣ Validate email format
+  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailPattern.test(email)) {
+    return res.status(400).json({
+      success: false,
+      message: 'Please enter a valid email address.',
+    });
+  }
+
+  // 4️⃣ Validate phone if provided
+  if (phone) {
+    const phonePattern = /^[6-9]\d{9}$/;
+    if (!phonePattern.test(phone)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Please enter a valid 10-digit phone number starting with 6-9.',
+      });
+    }
   }
 
   console.log('📩 New landing registration request from:', email);
@@ -493,8 +535,7 @@ const registerVisitorSQL = asyncHandler(async (req, res, next) => {
       console.log(`⚠️ Email already registered: ${email}`);
       return res.status(400).json({
         success: false,
-        message:
-          'This email is already registered. Please check your inbox for your welcome coupon.',
+        message: 'This email is already registered. Please check your inbox for your welcome coupon.',
       });
     }
 
