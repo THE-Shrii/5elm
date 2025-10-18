@@ -463,6 +463,99 @@ async function sendWelcomeEmail(visitor) {
 }
 
 /**
+ * @desc Resend coupon email to existing subscriber
+ * @param {string} email - User's email address
+ */
+const resendCouponEmail = async (email) => {
+  try {
+    const pool = await connectSQLServer();
+    
+    // Get existing subscriber data
+    const subscriber = await pool
+      .request()
+      .input('Email', sql.VarChar(255), email)
+      .query('SELECT TOP 1 FirstName, CouponCode FROM LandingSubscriptions WHERE Email = @Email');
+
+    if (subscriber.recordset.length === 0) {
+      throw new Error('Subscriber not found');
+    }
+
+    const { FirstName: firstName, CouponCode: couponCode } = subscriber.recordset[0];
+
+    // Configure email transport
+    const transporter = nodemailer.createTransporter({
+      host: process.env.SMTP_HOST,
+      port: process.env.SMTP_PORT,
+      secure: false,
+      auth: {
+        user: process.env.SMTP_USER,
+        pass: process.env.SMTP_PASS,
+      },
+    });
+
+    // Build HTML email template (same as registration)
+    const htmlBody = `
+      <div style="font-family:'Poppins',Helvetica,Arial,sans-serif;background-color:#121212;color:#f1f1f1;padding:0;margin:0;">
+        <div style="max-width:600px;margin:0 auto;background:#1E1E1E;border-radius:14px;padding:32px;box-shadow:0 4px 20px rgba(0,0,0,0.3);">
+          
+          <!-- Logo -->
+          <div style="text-align:center;margin-bottom:20px;">
+            <img src="https://5elm.in/assets/logo-light.png" alt="5ELM Logo" width="90" style="border:none;outline:none;display:inline-block;">
+          </div>
+          
+          <!-- Heading -->
+          <h2 style="color:#EAEAEA;text-align:center;margin-bottom:10px;">
+            Here's your 5ELM coupon, ${firstName}!
+          </h2>
+
+          <p style="font-size:15px;line-height:1.6;text-align:center;color:#c9c9c9;margin:0 0 25px;">
+            As requested, here's your exclusive <strong>10% OFF</strong> welcome coupon:
+          </p>
+
+          <!-- Coupon Code -->
+          <div style="text-align:center;margin:25px 0;">
+            <div style="display:inline-block;background:#2E2E2E;color:#fff;padding:14px 24px;border-radius:8px;font-size:22px;letter-spacing:2px;font-weight:bold;">
+              ${couponCode}
+            </div>
+          </div>
+
+          <p style="font-size:14px;text-align:center;color:#b3b3b3;">
+            Use this code during checkout to enjoy your discount.<br>
+            <a href="https://5elm.in" style="color:#9FFF9F;text-decoration:none;font-weight:600;">Visit 5ELM.in →</a>
+          </p>
+
+          <div style="margin-top:32px;text-align:center;color:#aaa;font-size:13px;">
+            With love,<br>
+            🌿 <strong>The 5ELM Team</strong>
+          </div>
+
+          <hr style="border:none;border-top:1px solid #333;margin:30px 0;">
+          
+          <p style="font-size:11px;text-align:center;color:#666;line-height:1.4;">
+            You requested this coupon resend from our website.<br>
+            If this wasn't you, you can <a href="mailto:5elminternal@gmail.com" style="color:#9FFF9F;text-decoration:none;">contact us</a> anytime.
+          </p>
+        </div>
+      </div>
+    `;
+
+    // Send email
+    await transporter.sendMail({
+      from: `"5ELM" <${process.env.SMTP_USER}>`,
+      to: email,
+      subject: 'Your 5ELM Coupon - Requested Resend',
+      html: htmlBody,
+    });
+
+    console.log(`📧 Coupon resent successfully to ${email}`);
+    return true;
+  } catch (error) {
+    console.error(`❌ Failed to resend coupon to ${email}:`, error);
+    throw error;
+  }
+};
+
+/**
  * @desc Register visitor from landing page (SQL Server + Email coupon)
  * @route POST /api/v1/landing/register
  * @access Public
@@ -525,18 +618,40 @@ const registerVisitorSQL = asyncHandler(async (req, res, next) => {
   try {
     const pool = await connectSQLServer();
 
-    // 2️⃣ Check if email already exists
+    // 2️⃣ Check if email or phone already exists
+    let query = `
+      SELECT TOP 1 * 
+      FROM LandingSubscriptions 
+      WHERE Email = @Email
+    `;
+
+    if (phone) {
+      query += ' OR Phone = @Phone';
+    }
+
     const existing = await pool
       .request()
       .input('Email', sql.VarChar(255), email)
-      .query('SELECT TOP 1 * FROM LandingSubscriptions WHERE Email = @Email');
+      .input('Phone', sql.VarChar(20), phone || null)
+      .query(query);
 
     if (existing.recordset.length > 0) {
-      console.log(`⚠️ Email already registered: ${email}`);
-      return res.status(400).json({
-        success: false,
-        message: 'This email is already registered. Please check your inbox for your welcome coupon.',
-      });
+      console.log(`⚠️ Duplicate found — Email or Phone already registered: ${email} / ${phone}`);
+      
+      // 🎉 Optional: Friendly re-send logic for better UX
+      try {
+        await resendCouponEmail(email);
+        return res.status(200).json({
+          success: true,
+          message: 'This email is already registered. We\'ve re-sent your coupon to your inbox!',
+        });
+      } catch (resendError) {
+        console.error('❌ Failed to resend coupon:', resendError);
+        return res.status(400).json({
+          success: false,
+          message: 'This email or contact number is already registered. Please check your inbox for your welcome coupon.',
+        });
+      }
     }
 
     // 3️⃣ Generate coupon code
@@ -677,5 +792,6 @@ module.exports = {
   getVisitors,
   unsubscribeVisitor,
   trackEmailOpen,
-  getSubscriptionsSQL
+  getSubscriptionsSQL,
+  resendCouponEmail
 };
