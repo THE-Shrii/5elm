@@ -168,7 +168,7 @@
       body {
         background: url("assets/img/bgm.png") no-repeat 0% center / cover;
         max-height: 100vh;
-        padding:  10px;
+        /* padding:  10px; */
       }
 
       h1 {
@@ -192,6 +192,7 @@
             background-color: #555c4a;
             margin-bottom: 0 !important;
 
+            height: 100vh;
             
       }
   p {
@@ -202,7 +203,7 @@
                 /* margin-top: 15px; */
       }
       .logo img{
-        margin-top: 0.5rem !important;
+        /* margin-top: 0.5rem !important; */
       }
 
       button {
@@ -213,6 +214,7 @@
             z-index: 2;
             max-width: 600px;
             width: 90%;
+            padding-top: 0;
             /* margin-top: -60px; */
         }
     }
