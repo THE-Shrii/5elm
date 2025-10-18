@@ -166,13 +166,11 @@
 
     @media (max-width: 768px) {
       body {
-        background: url("assets/img/t.png") no-repeat 50% center / cover;
+        background: url("assets/img/bgm.png") no-repeat 0% center / cover;
         max-height: 100vh;
         /* padding:  10px; */
       }
-      .test1{
-        padding-top:350px;
-      }
+
       h1 {
         font-size: 3.9rem;
                 margin-top: -1.45rem;
