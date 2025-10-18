@@ -529,29 +529,48 @@ const registerVisitorSQL = asyncHandler(async (req, res, next) => {
     await transporter.verify();
     console.log('✅ Email server verified successfully.');
 
-    // 6️⃣ Build beautiful HTML email template
+    // 6️⃣ Build polished HTML email template
     const htmlBody = `
-      <div style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; padding: 25px; background-color: #f9f9f9; color: #333;">
-        <div style="max-width: 600px; margin: 0 auto; background: #fff; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); padding: 30px;">
-          <div style="text-align: center; margin-bottom: 25px;">
-            <img src="https://i.imgur.com/DYoIqkO.png" alt="5ELM Logo" width="120" />
+      <div style="font-family:'Poppins',Helvetica,Arial,sans-serif;background-color:#121212;color:#f1f1f1;padding:0;margin:0;">
+        <div style="max-width:600px;margin:0 auto;background:#1E1E1E;border-radius:14px;padding:32px;box-shadow:0 4px 20px rgba(0,0,0,0.3);">
+          
+          <!-- Logo -->
+          <div style="text-align:center;margin-bottom:20px;">
+            <img src="https://5elm.in/assets/logo-light.png" alt="5ELM Logo" width="90" style="border:none;outline:none;display:inline-block;">
           </div>
-          <h2 style="color:#555C4A; text-align:center;">Welcome to 5ELM, ${firstName}!</h2>
-          <p style="font-size:15px; line-height:1.6; text-align:center;">
-            Thank you for joining us on this journey of mindful skincare.  
-            As a warm welcome, here's your exclusive <strong>10% OFF</strong> coupon code:
+          
+          <!-- Heading -->
+          <h2 style="color:#EAEAEA;text-align:center;margin-bottom:10px;">
+            Welcome to 5ELM, ${firstName}!
+          </h2>
+
+          <p style="font-size:15px;line-height:1.6;text-align:center;color:#c9c9c9;margin:0 0 25px;">
+            We're thrilled to have you join our journey towards <strong>natural Ayurvedic skincare</strong>.<br>
+            Here's your exclusive <strong>10% OFF</strong> welcome coupon:
           </p>
-          <div style="text-align:center; margin:20px 0;">
-            <span style="font-size:24px; font-weight:bold; color:#555C4A; letter-spacing:2px;">${couponCode}</span>
+
+          <!-- Coupon Code -->
+          <div style="text-align:center;margin:25px 0;">
+            <div style="display:inline-block;background:#2E2E2E;color:#fff;padding:14px 24px;border-radius:8px;font-size:22px;letter-spacing:2px;font-weight:bold;">
+              ${couponCode}
+            </div>
           </div>
-          <p style="font-size:14px; text-align:center;">
-            Use this code at checkout on your first order.<br/>
-            <a href="https://5elm.in" style="color:#555C4A; text-decoration:none; font-weight:bold;">Visit 5ELM.in →</a>
+
+          <p style="font-size:14px;text-align:center;color:#b3b3b3;">
+            Use this code during checkout to enjoy your discount.<br>
+            <a href="https://5elm.in" style="color:#9FFF9F;text-decoration:none;font-weight:600;">Visit 5ELM.in →</a>
           </p>
-          <hr style="margin:25px 0; border:none; border-top:1px solid #eee;">
-          <p style="font-size:12px; text-align:center; color:#999;">
-            You're receiving this email because you subscribed on our website.<br/>
-            If this wasn't you, you can <a href="mailto:5elminternal@gmail.com" style="color:#555C4A;">unsubscribe</a> anytime.
+
+          <div style="margin-top:32px;text-align:center;color:#aaa;font-size:13px;">
+            With love,<br>
+            🌿 <strong>The 5ELM Team</strong>
+          </div>
+
+          <hr style="border:none;border-top:1px solid #333;margin:30px 0;">
+          
+          <p style="font-size:11px;text-align:center;color:#666;line-height:1.4;">
+            You're receiving this email because you subscribed on our website.<br>
+            If this wasn't you, you can <a href="mailto:5elminternal@gmail.com" style="color:#9FFF9F;text-decoration:none;">unsubscribe</a> anytime.
           </p>
         </div>
       </div>
