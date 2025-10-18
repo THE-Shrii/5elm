@@ -6,9 +6,9 @@
 
     body {
       font-family: "Georgia", serif;
-      background: url("assets/img/bgd.png") no-repeat center top / cover;
+      background: url("assets/img/bgm.jpeg") no-repeat center top / cover;
       color: #fff;
-      height: 100vh;
+      /* height: 100vh; */
       width: 100%;
       display: flex;
       align-items: center;
@@ -19,13 +19,13 @@
           background-color: #bcae90;
     }
 
-    body::before {
+    /* body::before {
       content: "";
       position: absolute;
       inset: 0;
       background: rgba(0, 0, 0, 0.12);
       z-index: 1;
-    }
+    } */
 
     h1, h2, h3{
 
@@ -53,32 +53,29 @@
     }
 
     .logo img {
-      width: 100px;
+      width: 7.8rem;
       height: auto;
       margin-bottom: 0;
     }
 
     h1 {
-      font-size: 3rem;
-      font-weight: 500;
+      font-size: 5.5rem;
+      font-weight: 400;
       color: #fff;
+          /* margin-top: -1.9rem; */
     }
 
     p {
-      font-size: 15px;
+      font-size: 0.8rem;
       line-height: 1.8;
       color: #f2f2f2;
-      margin-bottom: 25px;
+      margin-bottom: 0.8rem;
     }
 
     p strong {
       font-weight: 500;
     }
 
-    /* Form */
-    form {
-      margin-top: 20px;
-    }
 
     .form-group {
       text-align: left;
@@ -96,14 +93,14 @@
     input[type="text"],
     input[type="email"],
     input[type="tel"] {
-      width: 100%;
-      padding: 10px 0;
-      border: none;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.6);
-      background: transparent;
-      color: #fff;
-      font-size: 14px;
-      outline: none;
+          width: 100%;
+    padding: 8px 0;
+    border: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.6);
+    background: transparent;
+    color: #fff;
+    font-size: 0.7rem;
+    outline: none;
     }
 
     input::placeholder {
@@ -133,7 +130,7 @@
       font-size: 15px;
       font-weight: 600;
       cursor: pointer;
-      margin-top: 25px;
+      margin-top: 15px;
       transition: background 0.3s ease;
     }
 
@@ -144,7 +141,9 @@
       font-weight: 500;
       font-size: 12px;
     }
-
+.span1{
+  font-weight: 700;
+}
     @media (min-width: 1200px) {
       body {
         background-position: top center; 
@@ -161,24 +160,31 @@
         .logo img {
               width: 90px;
         height: auto;
-        margin-top: 45px;
+        margin-top: 2rem;
         }
       
     }
 
     @media (max-width: 768px) {
       body {
-        background: url("assets/img/bgm.jpeg") no-repeat 70% center / cover;
-        height: auto;
+        background: url("assets/img/bg.png") no-repeat 0% center / cover;
+        /* height: 100vh; */
         padding: 20px 10px;
       }
 
       h1 {
-        font-size: 2.4rem;
+        font-size: 3.9rem;
+                margin-top: -1.45rem;
       }
+          .logo img {
+        width: 7rem;
+        height: auto;
+        margin-top: 0rem ;
+    }
+
 
       p {
-        font-size: 14px;
+        font-size: 0.7rem;
       }
     }
 
@@ -189,8 +195,11 @@
       }
 
       h1 {
-        font-size: 2.6rem;
-                margin-top: 15px;
+        font-size: 2.65rem;
+                /* margin-top: 15px; */
+      }
+      .logo img{
+        margin-top: 2rem !important;
       }
 
       button {
