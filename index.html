@@ -67,6 +67,9 @@
 
   </div>
   <script>
+// 🧠 Global Modal State Management
+let isModalOpen = false;
+
 // 🧠 Validation Functions
 function validateEmail(email) {
   const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -107,21 +110,47 @@ function clearAllErrors() {
 }
 
 function showModal(title, message, isError = false) {
+  console.log('🎉 showModal called:', title); // Debug log
+  
+  // Prevent multiple modals
+  if (isModalOpen) {
+    console.log('🛑 Modal already open, ignoring request');
+    return;
+  }
+  
   const modal = document.getElementById('response-modal');
   const modalTitle = document.getElementById('modal-title');
   const modalMessage = document.getElementById('modal-message');
   const modalIcon = document.getElementById('modal-icon');
   
-  modalTitle.textContent = title;
-  modalMessage.textContent = message;
-  modalIcon.textContent = isError ? '❌' : '✅';
-  modalIcon.style.color = isError ? '#ff6b6b' : '#555C4A';
-  
-  modal.style.display = 'flex';
+  if (modal && modalTitle && modalMessage && modalIcon) {
+    modalTitle.textContent = title;
+    modalMessage.textContent = message;
+    modalIcon.textContent = isError ? '❌' : '✅';
+    modalIcon.style.color = isError ? '#ff6b6b' : '#555C4A';
+    
+    modal.style.display = 'flex';
+    isModalOpen = true; // Set flag to prevent conflicts
+    console.log('🎉 Modal displayed successfully'); // Debug log
+  } else {
+    console.error('❌ Modal elements not found!');
+  }
 }
 
 function closeModal() {
-  document.getElementById('response-modal').style.display = 'none';
+  console.log('🔒 Modal close function called'); // Debug log
+  
+  if (!isModalOpen) {
+    console.log('🛑 Modal already closed, ignoring request');
+    return;
+  }
+  
+  const modal = document.getElementById('response-modal');
+  if (modal) {
+    modal.style.display = 'none';
+    isModalOpen = false; // Reset flag
+    console.log('🔒 Modal closed successfully'); // Debug log
+  }
 }
 
 document.getElementById("landing-form").addEventListener("submit", async function (e) {
@@ -218,13 +247,36 @@ document.getElementById("landing-form").addEventListener("submit", async functio
 
 // Setup modal close functionality - only close on button click
 document.addEventListener('DOMContentLoaded', function() {
+  console.log('🔧 Setting up modal close functionality');
   const closeBtn = document.getElementById("close-response-modal");
   
-  // Close modal ONLY when clicking the "Got It" button
-  closeBtn.addEventListener("click", closeModal);
+  if (closeBtn) {
+    // Remove any existing listeners to prevent duplicates
+    closeBtn.removeEventListener("click", closeModal);
+    
+    // Add the close event listener ONLY ONCE
+    closeBtn.addEventListener("click", function(e) {
+      console.log('🎯 Close button clicked!');
+      e.preventDefault();
+      e.stopPropagation();
+      closeModal();
+    });
+    
+    console.log('✅ Modal close listener attached successfully');
+  } else {
+    console.error('❌ Close button not found!');
+  }
   
-  // Remove click-outside and escape key functionality
-  // Modal will only close when user explicitly clicks "Got It"
+  // Prevent any accidental modal closing
+  const modal = document.getElementById('response-modal');
+  if (modal) {
+    // Remove all click events on modal background
+    modal.onclick = null;
+    modal.addEventListener('click', function(e) {
+      e.stopPropagation();
+      console.log('🛡️ Modal background clicked - but not closing!');
+    });
+  }
 });
 </script>
 
@@ -279,6 +331,7 @@ document.addEventListener('DOMContentLoaded', function() {
     font-family: 'Poppins', sans-serif;
     transform: scale(0.9);
     animation: modalAppear 0.3s ease-out forwards;
+    pointer-events: auto; /* Ensure modal content is clickable */
   }
 
   @keyframes modalAppear {
