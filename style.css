@@ -55,6 +55,7 @@
       width: 10.5rem;
       height: auto;
       margin-bottom: 0;
+          margin-top: 1.5rem;
     }
 
     h1 {
@@ -84,7 +85,7 @@
     label {
       display: block;
       font-weight: bold;
-      font-size: 11px;
+      font-size: 0.9rem;
       color: #fff;
       margin-bottom: 5px;
     }
