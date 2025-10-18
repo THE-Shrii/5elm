@@ -55,17 +55,18 @@
       width: 10.5rem;
       height: auto;
       margin-bottom: 0;
+          margin-top: 1.5rem;
     }
 
     h1 {
       font-size: 6rem;
       font-weight: 400;
       color: #fff;
-          /* margin-top: -1.9rem; */
+          margin-top: -2rem;
     }
 
     p {
-      font-size: 1rem;
+          font-size: 0.8rem;
       line-height: 1.8;
       color: #f2f2f2;
       margin-bottom: 0rem;
@@ -84,7 +85,7 @@
     label {
       display: block;
       font-weight: bold;
-      font-size: 11px;
+      font-size: 0.9rem;
       color: #fff;
       margin-bottom: 5px;
     }
@@ -138,7 +139,7 @@
     }
     .ag1{
       font-weight: 500;
-      font-size: 12px;
+      font-size: 0.8rem;
     }
 .span1{
   font-weight: 700;
@@ -155,6 +156,8 @@
     @media (max-width: 1024px) {
       body {
         background: url("assets/img/bgm.png") no-repeat 60% center / cover;
+        height: 100vh;
+
       }
         .logo img {
               width: 90px;
@@ -167,7 +170,6 @@
     @media (max-width: 768px) {
       body {
         background: url("assets/img/bgm.png") no-repeat 0% center / cover;
-        max-height: 100vh;
         /* padding:  10px; */
       }
 
@@ -199,7 +201,7 @@
         font-size: 0.6rem;
       }
       h1 {
-        font-size: 3.3rem;
+        font-size: 3rem;
                 /* margin-top: 15px; */
       }
       .logo img{
