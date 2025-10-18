@@ -6,7 +6,7 @@
 
     body {
       font-family: "Georgia", serif;
-      background: url("assets/img/bgm.png") no-repeat center top / cover;
+      background: url("assets/img/bgm.png") no-repeat  center top / cover;
       color: #fff;
       /* height: 100vh; */
       width: 100%;
@@ -46,26 +46,26 @@
     .content {
       position: relative;
       z-index: 2;
-      max-width: 600px;
+      max-width: 650px;
       width: 90%;
       padding: 10px;
     }
 
     .logo img {
-      width: 7.8rem;
+      width: 10.5rem;
       height: auto;
       margin-bottom: 0;
     }
 
     h1 {
-      font-size: 5.5rem;
+      font-size: 6rem;
       font-weight: 400;
       color: #fff;
           /* margin-top: -1.9rem; */
     }
 
     p {
-      font-size: 0.8rem;
+      font-size: 1rem;
       line-height: 1.8;
       color: #f2f2f2;
       margin-bottom: 0rem;
@@ -173,10 +173,10 @@
 
       h1 {
         font-size: 3.9rem;
-                margin-top: -1.45rem;
+                margin-top: -1rem;
       }
           .logo img {
-        width: 7rem;
+        width: 8rem;
         height: auto;
         margin-top: 0rem ;
     }
@@ -199,7 +199,7 @@
         font-size: 0.6rem;
       }
       h1 {
-        font-size: 2.65rem;
+        font-size: 3.3rem;
                 /* margin-top: 15px; */
       }
       .logo img{
