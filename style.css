@@ -167,7 +167,7 @@
     @media (max-width: 768px) {
       body {
         background: url("assets/img/bgm.png") no-repeat 0% center / cover;
-        /* height: 100vh; */
+        height: 98vh;
         padding: 20px 10px;
       }
 
@@ -191,7 +191,7 @@
       body {
             background-color: #000000;
             margin-bottom: 0 !important;
-             height: 90vh;
+             max-height: 100%;
 
             
       }
