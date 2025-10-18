@@ -216,27 +216,15 @@ document.getElementById("landing-form").addEventListener("submit", async functio
   }
 });
 
-// Setup modal close functionality
+// Setup modal close functionality - only close on button click
 document.addEventListener('DOMContentLoaded', function() {
-  const modal = document.getElementById("response-modal");
   const closeBtn = document.getElementById("close-response-modal");
   
-  // Close modal when clicking the button
+  // Close modal ONLY when clicking the "Got It" button
   closeBtn.addEventListener("click", closeModal);
   
-  // Close modal when clicking outside
-  modal.addEventListener("click", (e) => {
-    if (e.target === modal) {
-      closeModal();
-    }
-  });
-  
-  // Close modal with Escape key
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && modal.style.display === "flex") {
-      closeModal();
-    }
-  });
+  // Remove click-outside and escape key functionality
+  // Modal will only close when user explicitly clicks "Got It"
 });
 </script>
 
@@ -265,16 +253,17 @@ document.addEventListener('DOMContentLoaded', function() {
     box-shadow: 0 0 0 2px rgba(255, 107, 107, 0.1);
   }
 
-  /* Modal Styling */
+  /* Modal Styling - Persistent Modal (only closes on button click) */
   .modal-overlay {
     position: fixed;
     inset: 0;
-    background: rgba(0,0,0,0.6);
+    background: rgba(0,0,0,0.75);
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 9999;
-    backdrop-filter: blur(4px);
+    backdrop-filter: blur(6px);
+    cursor: default; /* Indicate this area is not clickable */
   }
 
   .modal-box {
@@ -329,16 +318,29 @@ document.addEventListener('DOMContentLoaded', function() {
     cursor: pointer;
     transition: all 0.3s ease;
     box-shadow: 0 4px 12px rgba(85, 92, 74, 0.3);
+    animation: buttonPulse 2s infinite;
+    position: relative;
+  }
+
+  @keyframes buttonPulse {
+    0%, 100% {
+      box-shadow: 0 4px 12px rgba(85, 92, 74, 0.3);
+    }
+    50% {
+      box-shadow: 0 4px 12px rgba(85, 92, 74, 0.6), 0 0 0 4px rgba(85, 92, 74, 0.1);
+    }
   }
 
   .modal-button:hover {
     transform: translateY(-2px);
     box-shadow: 0 6px 16px rgba(85, 92, 74, 0.4);
     background: linear-gradient(135deg, #6b7559 0%, #555C4A 100%);
+    animation: none; /* Stop pulsing on hover */
   }
 
   .modal-button:active {
     transform: translateY(0);
+    animation: none;
   }
 
   /* Form Input Enhanced Styling */
