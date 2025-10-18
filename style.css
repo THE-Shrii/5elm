@@ -84,7 +84,7 @@
     label {
       display: block;
       font-weight: bold;
-      font-size: 13px;
+      font-size: 11px;
       color: #fff;
       margin-bottom: 5px;
     }
@@ -167,7 +167,8 @@
     @media (max-width: 768px) {
       body {
         background: url("assets/img/bgm.png") no-repeat 0% center / cover;
-        height: 98vh;
+        max-height: 97vh;
+        min-height: 97vh;
         padding: 20px 10px;
       }
 
@@ -189,7 +190,7 @@
 
     @media (max-width: 480px) {
       body {
-            background-color: #000000;
+            background-color: #555c4a;
             margin-bottom: 0 !important;
              max-height: 100%;
 
