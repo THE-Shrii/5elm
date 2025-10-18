@@ -6,7 +6,7 @@
 
     body {
       font-family: "Georgia", serif;
-      background: url("assets/img/bgm.jpeg") no-repeat center top / cover;
+      background: url("assets/img/bgm.png") no-repeat center top / cover;
       color: #fff;
       /* height: 100vh; */
       width: 100%;
@@ -49,7 +49,6 @@
       max-width: 600px;
       width: 90%;
       padding: 10px;
-      backdrop-filter: blur(3px);
     }
 
     .logo img {
@@ -69,7 +68,7 @@
       font-size: 0.8rem;
       line-height: 1.8;
       color: #f2f2f2;
-      margin-bottom: 0.8rem;
+      margin-bottom: 0rem;
     }
 
     p strong {
@@ -94,7 +93,7 @@
     input[type="email"],
     input[type="tel"] {
           width: 100%;
-    padding: 8px 0;
+    padding: 2px 0;
     border: none;
     border-bottom: 1px solid rgba(255, 255, 255, 0.6);
     background: transparent;
@@ -155,7 +154,7 @@
 
     @media (max-width: 1024px) {
       body {
-        background: url("assets/img/bg.png") no-repeat 60% center / cover;
+        background: url("assets/img/bgm.png") no-repeat 60% center / cover;
       }
         .logo img {
               width: 90px;
@@ -167,7 +166,7 @@
 
     @media (max-width: 768px) {
       body {
-        background: url("assets/img/bg.png") no-repeat 0% center / cover;
+        background: url("assets/img/bgm.png") no-repeat 0% center / cover;
         /* height: 100vh; */
         padding: 20px 10px;
       }
@@ -191,9 +190,14 @@
     @media (max-width: 480px) {
       body {
             background-color: #000000;
-            height: 100% !important;
-      }
+            margin-bottom: 0 !important;
+        height: 100vh;
 
+            
+      }
+  p {
+        font-size: 0.6rem;
+      }
       h1 {
         font-size: 2.65rem;
                 /* margin-top: 15px; */
@@ -210,7 +214,6 @@
             z-index: 2;
             max-width: 600px;
             width: 90%;
-            backdrop-filter: blur(3px);
             margin-top: -60px;
         }
     }
