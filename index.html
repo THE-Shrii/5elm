@@ -29,29 +29,178 @@
       Sign up to get exclusive early access and <span class="span1">enjoy 10% off</span> your first <br> order.
     </p>
 
-    <form>
-      <div class="form-group">
-        <label for="name">NAME</label>
-        <input type="text" id="name" placeholder="ENTER FULL NAME *" required />
-      </div>
-
-      <div class="form-group">
-        <label for="email">EMAIL ADDRESS</label>
-        <input type="email" id="email" placeholder="ENTER YOUR EMAIL *" required />
-      </div>
-
-      <div class="form-group">
-        <label for="contact">CONTACT NO</label>
-        <input type="tel" id="contact" placeholder="ENTER CONTACT NUMBER" />
-      </div>
-
-      <div class="checkbox">
-        <input type="checkbox" id="agree" />
-        <label for="agree " class="ag1">I agree to receive marketing newsletters, offers and other promotional communications.</label>
-      </div>
-
-      <button type="submit">Sign Up</button>
-    </form>
+   <form id="landing-form">
+  <div class="form-group">
+    <label for="firstName">FIRST NAME</label>
+    <input type="text" id="firstName" placeholder="ENTER FIRST NAME *" required />
   </div>
+
+  <div class="form-group">
+    <label for="lastName">LAST NAME</label>
+    <input type="text" id="lastName" placeholder="ENTER LAST NAME *" required />
+  </div>
+
+  <div class="form-group">
+    <label for="email">EMAIL ADDRESS</label>
+    <input type="email" id="email" placeholder="ENTER YOUR EMAIL *" required />
+  </div>
+
+  <div class="form-group">
+    <label for="phone">CONTACT NO</label>
+    <input type="tel" id="phone" placeholder="ENTER CONTACT NUMBER" />
+  </div>
+
+  <div class="checkbox">
+    <input type="checkbox" id="consent" />
+    <label for="consent" class="ag1">
+      I agree to receive marketing newsletters, offers, and other promotional communications.
+    </label>
+  </div>
+
+  <button type="submit">Sign Up</button>
+  <p id="form-message" style="margin-top: 10px; font-size: 0.8rem;"></p>
+</form>
+
+  </div>
+  <script>
+document.getElementById("landing-form").addEventListener("submit", async function (e) {
+  e.preventDefault();
+
+  const firstName = document.getElementById("firstName").value.trim();
+  const lastName = document.getElementById("lastName").value.trim();
+  const email = document.getElementById("email").value.trim();
+  const phone = document.getElementById("phone").value.trim();
+  const consent = document.getElementById("consent").checked;
+
+  const messageEl = document.getElementById("form-message");
+  const submitBtn = e.target.querySelector("button");
+
+  // Reset message each time
+  messageEl.textContent = "";
+  messageEl.style.color = "#fff";
+
+  if (!firstName || !lastName || !email) {
+    messageEl.textContent = "⚠️ Please fill in all required fields.";
+    messageEl.style.color = "#ffcc00";
+    return;
+  }
+
+  const payload = { firstName, lastName, email, phone, consent };
+
+  try {
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Submitting...";
+
+    const response = await fetch("http://localhost:5000/api/v1/landing/register", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
+
+    const data = await response.json();
+
+    if (response.ok && data.success) {
+      // Show popup instead of text message
+      const popup = document.getElementById("successPopup");
+      const popupMessage = document.getElementById("popup-message");
+      popupMessage.textContent = `🎉 Thank you, ${firstName}! You've been successfully registered. Check your email for your exclusive 15% OFF coupon.`;
+      popup.style.display = "flex";
+
+      // Reset form
+      e.target.reset();
+    } else {
+      messageEl.textContent = "⚠️ " + (data.message || "Something went wrong. Please try again.");
+      messageEl.style.color = "#ff9999";
+    }
+  } catch (error) {
+    console.error("Error submitting form:", error);
+    messageEl.textContent = "❌ Server error. Please try again later.";
+    messageEl.style.color = "#ff6666";
+  } finally {
+    submitBtn.disabled = false;
+    submitBtn.textContent = "Sign Up";
+
+    // Auto-hide message after 5 seconds
+    setTimeout(() => {
+      messageEl.textContent = "";
+    }, 5000);
+  }
+});
+
+// Setup popup close functionality (only once)
+document.addEventListener('DOMContentLoaded', function() {
+  const popup = document.getElementById("successPopup");
+  const closeBtn = document.getElementById("closePopup");
+  
+  // Close popup when clicking the OK button
+  closeBtn.addEventListener("click", () => {
+    popup.style.display = "none";
+  });
+  
+  // Close popup when clicking outside the popup box
+  popup.addEventListener("click", (e) => {
+    if (e.target === popup) {
+      popup.style.display = "none";
+    }
+  });
+  
+  // Close popup with Escape key
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && popup.style.display === "flex") {
+      popup.style.display = "none";
+    }
+  });
+});
+</script>
+
+<!-- ✅ Success Popup -->
+<div id="successPopup" class="popup-overlay" style="display:none;">
+  <div class="popup-box">
+    <h2>🎉 Registration Successful!</h2>
+    <p id="popup-message">Thank you for signing up! Check your email for your exclusive 15% OFF coupon.</p>
+    <button id="closePopup">OK</button>
+  </div>
+</div>
+
+<style>
+  .popup-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+  }
+  .popup-box {
+    background: #fff;
+    color: #333;
+    padding: 2rem;
+    border-radius: 16px;
+    text-align: center;
+    width: 320px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    font-family: 'Poppins', sans-serif;
+  }
+  .popup-box h2 {
+    margin-bottom: 0.5rem;
+    color: #446644;
+  }
+  .popup-box button {
+    margin-top: 1rem;
+    padding: 0.5rem 1.5rem;
+    border: none;
+    border-radius: 8px;
+    background-color: #446644;
+    color: #fff;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .popup-box button:hover {
+    background-color: #557755;
+  }
+</style>
+
 </body>
 </html>
