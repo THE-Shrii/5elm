@@ -192,14 +192,14 @@
             background-color: #555c4a;
             margin-bottom: 0 !important;
 
-            /* height: 100vh; */
+            height: 100vh;
             
       }
   p {
         font-size: 0.6rem;
       }
       h1 {
-        font-size: 3.3rem;
+        font-size: 3rem;
                 /* margin-top: 15px; */
       }
       .logo img{
