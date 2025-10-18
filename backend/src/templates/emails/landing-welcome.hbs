@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to 5ELM - Your Exclusive Discount Inside!</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .header p {
+            margin: 10px 0 0 0;
+            font-size: 16px;
+            opacity: 0.9;
+        }
+        .content {
+            padding: 40px 30px;
+        }
+        .welcome-message {
+            font-size: 18px;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+        .coupon-section {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            border-radius: 10px;
+            padding: 30px;
+            text-align: center;
+            margin: 30px 0;
+            border: 2px dashed #ff8c00;
+        }
+        .coupon-code {
+            font-size: 32px;
+            font-weight: bold;
+            color: #d2691e;
+            background: white;
+            padding: 15px 25px;
+            border-radius: 8px;
+            display: inline-block;
+            margin: 20px 0;
+            letter-spacing: 2px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .discount-amount {
+            font-size: 24px;
+            font-weight: bold;
+            color: #ff6b35;
+            margin-bottom: 15px;
+        }
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 30px;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: bold;
+            margin: 20px 0;
+            transition: transform 0.3s ease;
+        }
+        .cta-button:hover {
+            transform: translateY(-2px);
+        }
+        .features {
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            padding: 30px;
+            margin: 30px 0;
+        }
+        .features h3 {
+            color: #667eea;
+            margin-top: 0;
+        }
+        .features ul {
+            list-style: none;
+            padding: 0;
+        }
+        .features li {
+            padding: 8px 0;
+            border-bottom: 1px solid #e9ecef;
+        }
+        .features li:last-child {
+            border-bottom: none;
+        }
+        .features li:before {
+            content: "✓ ";
+            color: #28a745;
+            font-weight: bold;
+            margin-right: 8px;
+        }
+        .terms {
+            background-color: #f8f9fa;
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            margin: 30px 0;
+            border-radius: 0 5px 5px 0;
+        }
+        .terms h4 {
+            margin-top: 0;
+            color: #667eea;
+        }
+        .terms p {
+            margin-bottom: 0;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        .footer {
+            background-color: #343a40;
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        .footer p {
+            margin: 5px 0;
+            font-size: 14px;
+        }
+        .social-links {
+            margin: 20px 0;
+        }
+        .social-links a {
+            color: white;
+            text-decoration: none;
+            margin: 0 10px;
+            font-size: 16px;
+        }
+        .unsubscribe {
+            margin-top: 20px;
+            font-size: 12px;
+            opacity: 0.8;
+        }
+        .unsubscribe a {
+            color: #adb5bd;
+            text-decoration: none;
+        }
+        @media only screen and (max-width: 600px) {
+            .container {
+                margin: 10px;
+                width: auto;
+            }
+            .header, .content, .footer {
+                padding: 20px 15px;
+            }
+            .coupon-code {
+                font-size: 24px;
+                padding: 12px 20px;
+            }
+            .discount-amount {
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎉 Welcome to 5ELM!</h1>
+            <p>Your journey to amazing products starts here</p>
+        </div>
+        
+        <div class="content">
+            <div class="welcome-message">
+                <p>Hi <strong>{{name}}</strong>,</p>
+                <p>Thank you for joining our exclusive community! We're thrilled to have you on board as we prepare to launch our premium e-commerce platform.</p>
+                <p>As a token of our appreciation, here's your exclusive early-bird discount:</p>
+            </div>
+
+            <div class="coupon-section">
+                <div class="discount-amount">🎁 {{discountText}}</div>
+                <div class="coupon-code">{{couponCode}}</div>
+                <p style="font-size: 16px; margin: 15px 0;">Use this code at checkout when we launch!</p>
+                <p style="font-size: 14px; opacity: 0.8; margin-top: 15px;">⏰ Valid until: {{expiryDate}}</p>
+            </div>
+
+            <div class="features">
+                <h3>🌟 What to Expect:</h3>
+                <ul>
+                    <li>Exclusive early access to our platform</li>
+                    <li>Premium quality products curated just for you</li>
+                    <li>Lightning-fast delivery service</li>
+                    <li>24/7 customer support</li>
+                    <li>Secure payment options</li>
+                    <li>Personalized shopping experience</li>
+                </ul>
+            </div>
+
+            <div style="text-align: center; margin: 30px 0;">
+                <p style="font-size: 16px; margin-bottom: 20px;">🚀 We'll notify you as soon as we launch!</p>
+                <a href="{{websiteUrl}}" class="cta-button">Visit Our Website</a>
+            </div>
+
+            <div class="terms">
+                <h4>📋 Terms & Conditions:</h4>
+                <p>This coupon is valid for first-time customers only. Cannot be combined with other offers. Minimum order value may apply. Valid until {{expiryDate}}. Terms and conditions apply.</p>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p><strong>5ELM E-commerce</strong></p>
+            <p>Your trusted online shopping destination</p>
+            <div class="social-links">
+                <a href="#">📘 Facebook</a>
+                <a href="#">📷 Instagram</a>
+                <a href="#">🐦 Twitter</a>
+            </div>
+            <p>📧 Email: support@5elm.com | 📞 Phone: +91-XXXXXXXXXX</p>
+            <div class="unsubscribe">
+                <p>Don't want to receive these emails? <a href="{{unsubscribeUrl}}">Unsubscribe here</a></p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

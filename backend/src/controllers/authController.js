@@ -1,0 +1,220 @@
+const User = require('../models/User');
+const jwt = require('jsonwebtoken');
+const { sendWelcomeEmail } = require('./emailController');
+
+// Generate JWT Token
+const generateToken = (id) => {
+  return jwt.sign({ id }, process.env.JWT_SECRET || 'fallback-secret', {
+    expiresIn: process.env.JWT_EXPIRE || '7d'
+  });
+};
+
+// @desc    Register new user
+// @route   POST /api/v1/auth/register
+// @access  Public
+const register = async (req, res, next) => {
+  try {
+    const { firstName, lastName, email, password, phone, role } = req.body;
+
+    // Check if the user already exists
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({
+        success: false,
+        message: 'User with this email already exists'
+      });
+    }
+
+    // Create the new user
+    const user = await User.create({ 
+      firstName, 
+      lastName, 
+      email, 
+      password, 
+      phone,
+      role: role || 'customer',
+      isEmailVerified: true,
+      isActive: true
+    });
+
+    // Send welcome email (non-blocking)
+    sendWelcomeEmail(user).catch(console.error);
+
+    // Generate JWT token
+    const token = generateToken(user._id);
+
+    // Respond to client
+    res.status(201).json({
+      success: true,
+      message: 'User registered successfully',
+      token,
+      user: {
+        id: user._id,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+        role: user.role
+      }
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// @desc    Login user
+// @route   POST /api/v1/auth/login
+// @access  Public
+const login = async (req, res, next) => {
+  try {
+    const { email, password } = req.body;
+
+    // Validate email and password
+    if (!email || !password) {
+      return res.status(400).json({
+        success: false,
+        message: 'Please provide email and password'
+      });
+    }
+
+    // Check for user
+    const user = await User.findOne({ email }).select('+password');
+    if (!user) {
+      return res.status(401).json({
+        success: false,
+        message: 'Invalid credentials'
+      });
+    }
+
+    // Check if user is active
+    if (!user.isActive) {
+      return res.status(401).json({
+        success: false,
+        message: 'Account is deactivated'
+      });
+    }
+
+    // Check password
+    const isMatch = await user.comparePassword(password);
+    if (!isMatch) {
+      return res.status(401).json({
+        success: false,
+        message: 'Invalid credentials'
+      });
+    }
+
+    // Generate token
+    const token = generateToken(user._id);
+
+    res.status(200).json({
+      success: true,
+      message: 'Login successful',
+      token,
+      user: {
+        id: user._id,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+        role: user.role
+      }
+    });
+
+  } catch (error) {
+    next(error);
+  }
+};
+
+// @desc    Logout user
+// @route   POST /api/v1/auth/logout
+// @access  Private
+const logout = async (req, res, next) => {
+  try {
+    res.status(200).json({
+      success: true,
+      message: 'Successfully logged out from 5ELM'
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// @desc    Get current logged in user
+// @route   GET /api/v1/auth/me
+// @access  Private
+const getMe = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.user.id).select('-password');
+    res.status(200).json({
+      success: true,
+      user
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// @desc    Verify email address
+// @route   GET /api/v1/auth/verify-email/:token
+// @access  Public
+const verifyEmail = async (req, res, next) => {
+  try {
+    res.status(200).json({
+      success: true,
+      message: 'Email verification endpoint working'
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// @desc    Forgot password
+// @route   POST /api/v1/auth/forgot-password
+// @access  Public
+const forgotPassword = async (req, res, next) => {
+  try {
+    res.status(200).json({
+      success: true,
+      message: 'Forgot password endpoint working'
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// @desc    Reset password
+// @route   PUT /api/v1/auth/reset-password/:token
+// @access  Public
+const resetPassword = async (req, res, next) => {
+  try {
+    res.status(200).json({
+      success: true,
+      message: 'Reset password endpoint working'
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// @desc    Refresh access token
+// @route   POST /api/v1/auth/refresh-token
+// @access  Public
+const refreshToken = async (req, res, next) => {
+  try {
+    res.status(200).json({
+      success: true,
+      message: 'Refresh token endpoint working'
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+module.exports = {
+  register,
+  login,
+  logout,
+  getMe,
+  verifyEmail,
+  forgotPassword,
+  resetPassword,
+  refreshToken
+};
