@@ -156,6 +156,8 @@
     @media (max-width: 1024px) {
       body {
         background: url("assets/img/bgm.png") no-repeat 60% center / cover;
+        height: 100vh;
+
       }
         .logo img {
               width: 90px;
